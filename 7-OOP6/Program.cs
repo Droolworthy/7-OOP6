@@ -24,11 +24,6 @@ namespace OOP6
                 Console.Write("\nВведите команду: ");
                 string userInput = Console.ReadLine();
 
-                Console.Clear();
-
-                Console.WriteLine($"{CommandBuyProduct} - КУПИТЬ ТОВАР" + $"\n{CommandShowGoodsBuyer} - ПОСМОТРЕТЬ ТОВАРЫ У ПОКУПАТЕЛЯ" +
-                $"\n{CommandShowGoodsSeller} - ПОСМОТРЕТЬ ТОВАРЫ У ПРОДАВЦА" + $"\n{CommandExit} - ВЫХОД");
-
                 switch (userInput)
                 {
                     case CommandBuyProduct:
