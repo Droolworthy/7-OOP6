@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace OOP6
 {
@@ -27,7 +27,7 @@ namespace OOP6
                 switch (userInput)
                 {
                     case CommandBuyProduct:
-                        сustomer.BuyingGoods(salesman, сustomer);
+                        сustomer.BuyingGoods(сustomer);
                         break;
 
                     case CommandShowGoodsBuyer:
@@ -50,45 +50,39 @@ namespace OOP6
         }
     }
 
-    class Сustomer
+    class Сustomer : Salesman
     {
-        List<Product> _shoppingList = new List<Product>();
+        private List<Product> _shoppingList = new List<Product>();
         private int _clientMoney = 500;
         private int _moneyToPay;
 
-        public void BuyingGoods(Salesman salesman, Сustomer сustomer)
+        public void BuyingGoods(Сustomer сustomer)
         {
             Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
 
             Console.Write("\nДайте мне пожалуйста: ");
             string userInput = Console.ReadLine();
 
-            if (salesman.GetListCount() > 0)
+            for (int i = 0; i < _listGoods.Count; i++)
             {
-                for (int i = 0; i < salesman.GetListCount(); i++)
+                if (сustomer.CheckSolvencyBuyerBuyProduct(_listGoods[i]))
                 {
-                    if (сustomer.CheckSolvency(salesman.GetListGoodsByIndex(i)))
+                    if (userInput == _listGoods[i].СommodityName)
                     {
-                        if (userInput == salesman.GetListGoodsByIndex(i).СommodityName)
-                        {
-                            _clientMoney -= сustomer.PayProduct();
-                            _shoppingList.Add(salesman.GetRemoveListGoods());
-                            Console.WriteLine("Вы купили - " + userInput);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Такого товара нет в списке.");
-                        }
+                        _clientMoney -= сustomer.PayProduct();
+                        _shoppingList.Add(_listGoods[i]);
+                        _listGoods.RemoveAt(i);
+                        Console.WriteLine("Вы купили - " + userInput);
                     }
                     else
                     {
-                        Console.WriteLine("У вас закончились деньги.");
+                        Console.WriteLine("Такого товара нет в списке.");
                     }
                 }
-            }
-            else
-            {
-                Console.WriteLine("Товары в магазине закончились. Вы всё скупили.");
+                else
+                {
+                    Console.WriteLine("У вас закончились деньги.");
+                }
             }
         }
 
@@ -100,7 +94,7 @@ namespace OOP6
             }
         }
 
-        public bool CheckSolvency(Product product)
+        public bool CheckSolvencyBuyerBuyProduct(Product product)
         {
             _moneyToPay = product.СommodityPrice;
 
@@ -122,9 +116,9 @@ namespace OOP6
         }
     }
 
-    class Salesman
+    class Salesman 
     {
-        List<Product> _listGoods = new List<Product>();
+        protected List<Product> _listGoods = new List<Product>();
 
         public Salesman()
         {
@@ -139,23 +133,6 @@ namespace OOP6
             {
                 Console.WriteLine("Название товара - " + _listGoods[i].СommodityName + ", Цена - " + _listGoods[i].СommodityPrice);
             }
-        }
-
-        public Product GetListGoodsByIndex(int index)
-        {
-            return _listGoods.ElementAt(index);
-        }
-
-        public Product GetRemoveListGoods()
-        {
-            Product product = _listGoods[0];
-            _listGoods.Remove(product);
-            return product;
-        }
-
-        public int GetListCount()
-        {
-            return _listGoods.Count;
         }
 
         private void AddProduct()
