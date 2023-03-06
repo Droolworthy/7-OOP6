@@ -112,7 +112,7 @@ namespace OOP6
             {
                 if (shop.CheckSolvencyBuyerBuyProduct(_listGoods[i]))
                 {
-                    if (userInput == _listGoods[i].СommodityName)
+                    if (userInput.ToLower() == _listGoods[i].СommodityName.ToLower())
                     {
                         _clientMoney -= shop.PayProduct();
                         _shoppingList.Add(_listGoods[i]);
