@@ -52,10 +52,7 @@ namespace OOP6
     class Human
     {
         protected List<Product> _listGoods = new List<Product>();
-        protected List<Product> _shoppingList = new List<Product>();
-        protected int _clientMoney = 500;
-        protected int _moneyToPay;
-
+        
         public Human()
         {
             AddProduct();
@@ -77,6 +74,8 @@ namespace OOP6
 
     class Сustomer : Human
     {
+        protected List<Product> _shoppingList = new List<Product>();
+
         public void ShowBuyerBag()
         {
             for (int i = 0; i < _shoppingList.Count; i++)
@@ -97,13 +96,19 @@ namespace OOP6
                 Console.WriteLine("Название товара - " + _listGoods[i].СommodityName + ", Цена - " + _listGoods[i].СommodityPrice);
             }
         }
+
     }
 
     class Shop : Salesman
     {
+        private int _clientMoney = 500;
+        private int _moneyToPay;
+
         public void TradeGoods(Shop shop)
         {
-            Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
+            
+
+        Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
 
             Console.Write("\nДайте мне пожалуйста: ");
             string userInput = Console.ReadLine();
