@@ -106,8 +106,6 @@ namespace OOP6
 
         public void TradeGoods(Shop shop)
         {
-            
-
         Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
 
             Console.Write("\nДайте мне пожалуйста: ");
