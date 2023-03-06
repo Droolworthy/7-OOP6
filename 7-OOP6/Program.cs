@@ -26,7 +26,7 @@ namespace OOP6
                 switch (userInput)
                 {
                     case CommandBuyProduct:
-                        shop.Trade(shop);
+                        shop.TradeGoods(shop);
                         break;
 
                     case CommandShowGoodsBuyer:
@@ -34,7 +34,7 @@ namespace OOP6
                         break;
 
                     case CommandShowGoodsSeller:
-                        shop.ShowAllProductShop();
+                        shop.ShowAllProductSeller();
                         break;
 
                     case CommandExit:
@@ -88,7 +88,7 @@ namespace OOP6
 
     class Salesman : Сustomer
     {
-        public void ShowAllProductShop()
+        public void ShowAllProductSeller()
         {
             Console.WriteLine("\nПродукты магазина: ");
 
@@ -101,7 +101,7 @@ namespace OOP6
 
     class Shop : Salesman
     {
-        public void Trade(Shop shop)
+        public void TradeGoods(Shop shop)
         {
             Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
 
@@ -131,7 +131,7 @@ namespace OOP6
             }
         }
 
-        public bool CheckSolvencyBuyerBuyProduct(Product product)
+        private bool CheckSolvencyBuyerBuyProduct(Product product)
         {
             _moneyToPay = product.СommodityPrice;
 
@@ -146,7 +146,7 @@ namespace OOP6
             }
         }
 
-        public int PayProduct()
+        private int PayProduct()
         {
             _clientMoney -= _moneyToPay;
             return _moneyToPay;
