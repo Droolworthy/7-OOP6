@@ -11,8 +11,7 @@ namespace OOP6
             const string CommandShowGoodsSeller = "3";
             const string CommandExit = "4";
 
-            Сustomer сustomer = new Сustomer();
-            Salesman salesman = new Salesman();
+            Shop shop = new Shop();
 
             bool isWorking = true;
 
@@ -27,15 +26,15 @@ namespace OOP6
                 switch (userInput)
                 {
                     case CommandBuyProduct:
-                        сustomer.BuyingGoods(сustomer);
+                        shop.Trade(shop);
                         break;
 
                     case CommandShowGoodsBuyer:
-                        сustomer.ShowBuyerBag();
+                        shop.ShowBuyerBag();
                         break;
 
                     case CommandShowGoodsSeller:
-                        salesman.ShowAllProductSeller();
+                        shop.ShowAllProductShop();
                         break;
 
                     case CommandExit:
@@ -50,13 +49,59 @@ namespace OOP6
         }
     }
 
-    class Сustomer : Salesman
+    class Human
     {
-        private List<Product> _shoppingList = new List<Product>();
-        private int _clientMoney = 500;
-        private int _moneyToPay;
+        protected List<Product> _listGoods = new List<Product>();
+        protected List<Product> _shoppingList = new List<Product>();
+        protected int _clientMoney = 500;
+        protected int _moneyToPay;
 
-        public void BuyingGoods(Сustomer сustomer)
+        public Human()
+        {
+            AddProduct();
+        }
+
+        private void AddProduct()
+        {
+            _listGoods.Add(new Product("Батон", 50));
+            _listGoods.Add(new Product("Колбаса", 150));
+            _listGoods.Add(new Product("Брокколи", 110));
+            _listGoods.Add(new Product("Сосиски", 150));
+            _listGoods.Add(new Product("Шоколадка", 55));
+            _listGoods.Add(new Product("Зефир", 40));
+            _listGoods.Add(new Product("Майонез", 40));
+            _listGoods.Add(new Product("Банан", 15));
+            _listGoods.Add(new Product("Молоко", 50));
+        }
+    }
+
+    class Сustomer : Human
+    {
+        public void ShowBuyerBag()
+        {
+            for (int i = 0; i < _shoppingList.Count; i++)
+            {
+                Console.WriteLine("\nУ вас в сумке лежит - " + _shoppingList[i].СommodityName);
+            }
+        }
+    }
+
+    class Salesman : Сustomer
+    {
+        public void ShowAllProductShop()
+        {
+            Console.WriteLine("\nПродукты магазина: ");
+
+            for (int i = 0; i < _listGoods.Count; i++)
+            {
+                Console.WriteLine("Название товара - " + _listGoods[i].СommodityName + ", Цена - " + _listGoods[i].СommodityPrice);
+            }
+        }
+    }
+
+    class Shop : Salesman
+    {
+        public void Trade(Shop shop)
         {
             Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
 
@@ -65,11 +110,11 @@ namespace OOP6
 
             for (int i = 0; i < _listGoods.Count; i++)
             {
-                if (сustomer.CheckSolvencyBuyerBuyProduct(_listGoods[i]))
+                if (shop.CheckSolvencyBuyerBuyProduct(_listGoods[i]))
                 {
                     if (userInput == _listGoods[i].СommodityName)
                     {
-                        _clientMoney -= сustomer.PayProduct();
+                        _clientMoney -= shop.PayProduct();
                         _shoppingList.Add(_listGoods[i]);
                         _listGoods.RemoveAt(i);
                         Console.WriteLine("Вы купили - " + userInput);
@@ -83,14 +128,6 @@ namespace OOP6
                 {
                     Console.WriteLine("У вас закончились деньги.");
                 }
-            }
-        }
-
-        public void ShowBuyerBag()
-        {
-            for (int i = 0; i < _shoppingList.Count; i++)
-            {
-                Console.WriteLine("\nУ вас в сумке лежит - " + _shoppingList[i].СommodityName);
             }
         }
 
@@ -113,39 +150,6 @@ namespace OOP6
         {
             _clientMoney -= _moneyToPay;
             return _moneyToPay;
-        }
-    }
-
-    class Salesman 
-    {
-        protected List<Product> _listGoods = new List<Product>();
-
-        public Salesman()
-        {
-            AddProduct();
-        }
-
-        public void ShowAllProductSeller()
-        {
-            Console.WriteLine("\nПродукты магазина: ");
-
-            for (int i = 0; i < _listGoods.Count; i++)
-            {
-                Console.WriteLine("Название товара - " + _listGoods[i].СommodityName + ", Цена - " + _listGoods[i].СommodityPrice);
-            }
-        }
-
-        private void AddProduct()
-        {
-            _listGoods.Add(new Product("Батон", 50));
-            _listGoods.Add(new Product("Колбаса", 150));
-            _listGoods.Add(new Product("Брокколи", 110));
-            _listGoods.Add(new Product("Сосиски", 150));
-            _listGoods.Add(new Product("Шоколадка", 55));
-            _listGoods.Add(new Product("Зефир", 40));
-            _listGoods.Add(new Product("Майонез", 40));
-            _listGoods.Add(new Product("Банан", 15));
-            _listGoods.Add(new Product("Молоко", 50));
         }
     }
 
