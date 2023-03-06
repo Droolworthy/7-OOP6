@@ -96,7 +96,6 @@ namespace OOP6
                 Console.WriteLine("Название товара - " + _listGoods[i].СommodityName + ", Цена - " + _listGoods[i].СommodityPrice);
             }
         }
-
     }
 
     class Shop : Salesman
