@@ -52,7 +52,7 @@ namespace OOP6
     class Human
     {
         protected List<Product> _listGoods = new List<Product>();
-        
+
         public Human()
         {
             AddProduct();
@@ -105,7 +105,7 @@ namespace OOP6
 
         public void TradeGoods(Shop shop)
         {
-        Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
+            Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
 
             Console.Write("\nДайте мне пожалуйста: ");
             string userInput = Console.ReadLine();
