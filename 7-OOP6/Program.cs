@@ -110,7 +110,7 @@ namespace OOP6
 
             for (int i = 0; i < _listGoods.Count; i++)
             {
-                if (shop.CheckSolvencyBuyerBuyProduct(_listGoods[i]))
+                if (shop.CheckSolvencyBuyProduct(_listGoods[i]))
                 {
                     if (userInput.ToLower() == _listGoods[i].СommodityName.ToLower())
                     {
@@ -131,7 +131,7 @@ namespace OOP6
             }
         }
 
-        private bool CheckSolvencyBuyerBuyProduct(Product product)
+        private bool CheckSolvencyBuyProduct(Product product)
         {
             _moneyToPay = product.СommodityPrice;
 
