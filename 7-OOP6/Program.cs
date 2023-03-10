@@ -37,7 +37,7 @@ namespace OOP6
                         break;
 
                     case CommandShowGoodsSeller:
-                        human.ShowAllProductSeller();
+                        human.ShowAllProduct();
                         break;
 
                     case CommandExit:
@@ -62,7 +62,7 @@ namespace OOP6
             AddProduct();
         }
 
-        public void ShowAllProductSeller()
+        public void ShowAllProduct()
         {
             Console.WriteLine("\nПродукты магазина: ");
 
