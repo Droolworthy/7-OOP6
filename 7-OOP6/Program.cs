@@ -12,6 +12,9 @@ namespace OOP6
             const string CommandExit = "4";
 
             Shop shop = new Shop();
+            Human human = new Human();
+            Customer customer = new Customer();
+            Salesman salesman = new Salesman();
 
             bool isWorking = true;
 
@@ -26,15 +29,15 @@ namespace OOP6
                 switch (userInput)
                 {
                     case CommandBuyProduct:
-                        shop.TradeGoods(shop);
+                        shop.Trade(customer, salesman);
                         break;
 
                     case CommandShowGoodsBuyer:
-                        shop.ShowBuyerBag();
+                        customer.ShowBuyerBag();
                         break;
 
                     case CommandShowGoodsSeller:
-                        shop.ShowAllProductSeller();
+                        human.ShowAllProductSeller();
                         break;
 
                     case CommandExit:
@@ -52,10 +55,21 @@ namespace OOP6
     class Human
     {
         protected List<Product> _listGoods = new List<Product>();
+        protected int _clientMoney = 500;
 
         public Human()
         {
             AddProduct();
+        }
+
+        public void ShowAllProductSeller()
+        {
+            Console.WriteLine("\nПродукты магазина: ");
+
+            for (int i = 0; i < _listGoods.Count; i++)
+            {
+                Console.WriteLine("Название товара - " + _listGoods[i].СommodityName + ", Цена - " + _listGoods[i].СommodityPrice);
+            }
         }
 
         private void AddProduct()
@@ -72,9 +86,67 @@ namespace OOP6
         }
     }
 
-    class Сustomer : Human
+    class Salesman : Human
+    {
+        private int _buyerMoney = 0;
+
+        public bool TryGetProduct(out Product product)
+        {
+            product = null;
+
+            Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
+            Console.WriteLine("У продавца: " + _buyerMoney + " рублей.");
+
+            Console.Write("\nВведите название товара: ");
+            string userInput = Console.ReadLine();
+
+            for (int i = 0; i < _listGoods.Count; i++)
+            {
+                if (userInput == _listGoods[i].СommodityName.ToLower())
+                {
+                    product = _listGoods[i];
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void Sell(Product product)
+        {
+            int moneyBuyerToPay = product.СommodityPrice;
+            _listGoods.Remove(product);
+            _buyerMoney += moneyBuyerToPay;
+        }
+    }
+
+    class Customer : Human
     {
         protected List<Product> _shoppingList = new List<Product>();
+        protected int _moneyToPay;
+
+        public bool CanPay(Product product)
+        {
+            _moneyToPay = product.СommodityPrice;
+
+            if (_clientMoney >= _moneyToPay)
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("У вас закончились деньги.");
+                _moneyToPay = 0;
+                return false;
+            }
+        }
+
+        public void Buy(Product product)
+        {
+            int moneyClientToPay = product.СommodityPrice;
+            _shoppingList.Add(product);
+            _clientMoney -= moneyClientToPay;
+        }
 
         public void ShowBuyerBag()
         {
@@ -85,73 +157,27 @@ namespace OOP6
         }
     }
 
-    class Salesman : Сustomer
+    class Shop
     {
-        public void ShowAllProductSeller()
+        public void Trade(Customer сustomer, Salesman salesman)
         {
-            Console.WriteLine("\nПродукты магазина: ");
+            Product product = null;
 
-            for (int i = 0; i < _listGoods.Count; i++)
+            if (salesman.TryGetProduct(out product))
             {
-                Console.WriteLine("Название товара - " + _listGoods[i].СommodityName + ", Цена - " + _listGoods[i].СommodityPrice);
-            }
-        }
-    }
-
-    class Shop : Salesman
-    {
-        private int _clientMoney = 500;
-        private int _moneyToPay;
-
-        public void TradeGoods(Shop shop)
-        {
-            Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
-
-            Console.Write("\nДайте мне пожалуйста: ");
-            string userInput = Console.ReadLine();
-
-            for (int i = 0; i < _listGoods.Count; i++)
-            {
-                if (shop.CheckSolvencyBuyProduct(_listGoods[i]))
+                if (сustomer.CanPay(product))
                 {
-                    if (userInput.ToLower() == _listGoods[i].СommodityName.ToLower())
-                    {
-                        _clientMoney -= shop.PayProduct();
-                        _shoppingList.Add(_listGoods[i]);
-                        _listGoods.RemoveAt(i);
-                        Console.WriteLine("Вы купили - " + userInput);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Такого товара нет в списке.");
-                    }
+                    сustomer.Buy(product);
+                    salesman.Sell(product);
+                    Console.WriteLine("Вы купили товар.");
+                    return;
                 }
-                else
-                {
-                    Console.WriteLine("У вас закончились деньги.");
-                }
-            }
-        }
-
-        private bool CheckSolvencyBuyProduct(Product product)
-        {
-            _moneyToPay = product.СommodityPrice;
-
-            if (_clientMoney >= _moneyToPay)
-            {
-                return true;
             }
             else
             {
-                _moneyToPay = 0;
-                return false;
+                Console.WriteLine("Такого товара нет в списке.");
+                return;
             }
-        }
-
-        private int PayProduct()
-        {
-            _clientMoney -= _moneyToPay;
-            return _moneyToPay;
         }
     }
 
