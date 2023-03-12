@@ -12,7 +12,6 @@ namespace OOP6
             const string CommandExit = "4";
 
             Shop shop = new Shop();
-
             Human DowncastingCustomer = new Customer();
             Human DowncastingSalesman = new Salesman();
 
@@ -63,11 +62,6 @@ namespace OOP6
         protected List<Product> _listGoods = new List<Product>();
         protected int _clientMoney = 500;
 
-        public int ClientMoney()
-        {
-            return _clientMoney;
-        }
-
         public Human()
         {
             AddProduct();
@@ -81,6 +75,11 @@ namespace OOP6
             {
                 Console.WriteLine("Название товара - " + _listGoods[i].СommodityName + ", Цена - " + _listGoods[i].СommodityPrice);
             }
+        }
+
+        public void ShowClientMoney()
+        {
+            Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
         }
 
         private void AddProduct()
@@ -112,7 +111,7 @@ namespace OOP6
             }
             else
             {
-                Console.WriteLine("У вас закончились деньги.");
+                Console.WriteLine("Вам не хватает денег купить товар.");
                 _moneyToPay = 0;
                 return false;
             }
@@ -141,8 +140,7 @@ namespace OOP6
         public bool TryGetProduct(out Product product)
         {
             product = null;
-
-            Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
+        
             Console.WriteLine("У продавца: " + _buyerMoney + " рублей.");
 
             Console.Write("\nВведите название товара: ");
@@ -150,7 +148,7 @@ namespace OOP6
 
             for (int i = 0; i < _listGoods.Count; i++)
             {
-                if (userInput == _listGoods[i].СommodityName.ToLower())
+                if (userInput.ToLower() == _listGoods[i].СommodityName.ToLower())
                 {
                     product = _listGoods[i];
                     return true;
@@ -172,6 +170,8 @@ namespace OOP6
     {
         public void Trade(Customer customer, Salesman salesman)
         {
+            customer.ShowClientMoney();
+
             if (salesman.TryGetProduct(out Product product))
             {
                 if (customer.CanPay(product))
