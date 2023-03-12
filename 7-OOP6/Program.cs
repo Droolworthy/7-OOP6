@@ -12,9 +12,15 @@ namespace OOP6
             const string CommandExit = "4";
 
             Shop shop = new Shop();
-            Human human = new Human();
-            Customer customer = new Customer();
-            Salesman salesman = new Salesman();
+
+            Human DowncastingCustomer = new Customer();
+            Human DowncastingSalesman = new Salesman();
+
+            Customer customer;
+            Salesman salesman;
+
+            customer = (Customer)DowncastingCustomer;
+            salesman = (Salesman)DowncastingSalesman;
 
             bool isWorking = true;
 
@@ -33,11 +39,11 @@ namespace OOP6
                         break;
 
                     case CommandShowGoodsBuyer:
-                        customer.ShowBuyerBag();
+                        salesman.ShowAllProduct();
                         break;
 
                     case CommandShowGoodsSeller:
-                        human.ShowAllProduct();
+                        customer.ShowBuyerBag();
                         break;
 
                     case CommandExit:
@@ -57,6 +63,11 @@ namespace OOP6
         protected List<Product> _listGoods = new List<Product>();
         protected int _clientMoney = 500;
 
+        public int ClientMoney()
+        {
+            return _clientMoney;
+        }
+
         public Human()
         {
             AddProduct();
@@ -74,7 +85,7 @@ namespace OOP6
 
         private void AddProduct()
         {
-            _listGoods.Add(new Product("Батон", 50));
+            _listGoods.Add(new Product("Б", 50));
             _listGoods.Add(new Product("Колбаса", 150));
             _listGoods.Add(new Product("Брокколи", 110));
             _listGoods.Add(new Product("Сосиски", 150));
@@ -83,40 +94,6 @@ namespace OOP6
             _listGoods.Add(new Product("Майонез", 40));
             _listGoods.Add(new Product("Банан", 15));
             _listGoods.Add(new Product("Молоко", 50));
-        }
-    }
-
-    class Salesman : Human
-    {
-        private int _buyerMoney = 0;
-
-        public bool TryGetProduct(out Product product)
-        {
-            product = null;
-
-            Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
-            Console.WriteLine("У продавца: " + _buyerMoney + " рублей.");
-
-            Console.Write("\nВведите название товара: ");
-            string userInput = Console.ReadLine();
-
-            for (int i = 0; i < _listGoods.Count; i++)
-            {
-                if (userInput == _listGoods[i].СommodityName.ToLower())
-                {
-                    product = _listGoods[i];
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public void Sell(Product product)
-        {
-            int moneyBuyerToPay = product.СommodityPrice;
-            _listGoods.Remove(product);
-            _buyerMoney += moneyBuyerToPay;
         }
     }
 
@@ -157,17 +134,49 @@ namespace OOP6
         }
     }
 
+    class Salesman : Human
+    {
+        private int _buyerMoney = 0;
+
+        public bool TryGetProduct(out Product product)
+        {
+            product = null;
+
+            Console.WriteLine("\nУ вас: " + _clientMoney + " рублей.");
+            Console.WriteLine("У продавца: " + _buyerMoney + " рублей.");
+
+            Console.Write("\nВведите название товара: ");
+            string userInput = Console.ReadLine();
+
+            for (int i = 0; i < _listGoods.Count; i++)
+            {
+                if (userInput == _listGoods[i].СommodityName.ToLower())
+                {
+                    product = _listGoods[i];
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void Sell(Product product)
+        {
+            int moneyBuyerToPay = product.СommodityPrice;
+            _listGoods.Remove(product);
+            _buyerMoney += moneyBuyerToPay;
+        }
+    }
+
     class Shop
     {
-        public void Trade(Customer сustomer, Salesman salesman)
+        public void Trade(Customer customer, Salesman salesman)
         {
-            Product product = null;
-
-            if (salesman.TryGetProduct(out product))
+            if (salesman.TryGetProduct(out Product product))
             {
-                if (сustomer.CanPay(product))
+                if (customer.CanPay(product))
                 {
-                    сustomer.Buy(product);
+                    customer.Buy(product);
                     salesman.Sell(product);
                     Console.WriteLine("Вы купили товар.");
                     return;
