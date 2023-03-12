@@ -12,6 +12,7 @@ namespace OOP6
             const string CommandExit = "4";
 
             Shop shop = new Shop();
+
             Human DowncastingCustomer = new Customer();
             Human DowncastingSalesman = new Salesman();
 
@@ -84,7 +85,7 @@ namespace OOP6
 
         private void AddProduct()
         {
-            _listGoods.Add(new Product("Б", 50));
+            _listGoods.Add(new Product("Батон", 50));
             _listGoods.Add(new Product("Колбаса", 150));
             _listGoods.Add(new Product("Брокколи", 110));
             _listGoods.Add(new Product("Сосиски", 150));
