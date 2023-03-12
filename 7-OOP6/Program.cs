@@ -12,7 +12,6 @@ namespace OOP6
             const string CommandExit = "4";
 
             Shop shop = new Shop();
-
             Human downCastingCustomer = new Customer();
             Human downCastingSalesman = new Salesman();
 
@@ -100,7 +99,7 @@ namespace OOP6
     class Customer : Human
     {
         protected List<Product> _shoppingList = new List<Product>();
-        protected int _moneyToPay;
+        private int _moneyToPay;
 
         public bool CanPay(Product product)
         {
