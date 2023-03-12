@@ -12,6 +12,7 @@ namespace OOP6
             const string CommandExit = "4";
 
             Shop shop = new Shop();
+            
             Human DowncastingCustomer = new Customer();
             Human DowncastingSalesman = new Salesman();
 
