@@ -12,15 +12,15 @@ namespace OOP6
             const string CommandExit = "4";
 
             Shop shop = new Shop();
-            
-            Human DowncastingCustomer = new Customer();
-            Human DowncastingSalesman = new Salesman();
+
+            Human downCastingCustomer = new Customer();
+            Human downCastingSalesman = new Salesman();
 
             Customer customer;
             Salesman salesman;
 
-            customer = (Customer)DowncastingCustomer;
-            salesman = (Salesman)DowncastingSalesman;
+            customer = (Customer)downCastingCustomer;
+            salesman = (Salesman)downCastingSalesman;
 
             bool isWorking = true;
 
