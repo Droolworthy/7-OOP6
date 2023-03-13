@@ -12,14 +12,8 @@ namespace OOP6
             const string CommandExit = "4";
 
             Shop shop = new Shop();
-            Human downCastingCustomer = new Customer();
-            Human downCastingSalesman = new Salesman();
-
-            Customer customer;
-            Salesman salesman;
-
-            customer = (Customer)downCastingCustomer;
-            salesman = (Salesman)downCastingSalesman;
+            Customer customer = new Customer();
+            Salesman salesman = new Salesman();
 
             bool isWorking = true;
 
