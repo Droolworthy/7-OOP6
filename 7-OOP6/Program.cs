@@ -92,7 +92,7 @@ namespace OOP6
 
     class Customer : Human
     {
-        protected List<Product> _shoppingList = new List<Product>();
+        private List<Product> _shoppingList = new List<Product>();
         private int _moneyToPay;
 
         public bool CanPay(Product product)
